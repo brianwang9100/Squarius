@@ -1,3 +1,3 @@
 # Squarius
 ### Brian Wang
-##### Progress: 5% Done
+##### Progress: 10% Done
