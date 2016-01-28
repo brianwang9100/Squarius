@@ -10,6 +10,7 @@
 		DF6A2C711C4CEE6B008095E7 /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6A2C701C4CEE6B008095E7 /* Square.swift */; };
 		DF6A2C731C4CEE82008095E7 /* HeroSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6A2C721C4CEE82008095E7 /* HeroSquare.swift */; };
 		DF6A2C751C4CEE8E008095E7 /* EnemySquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6A2C741C4CEE8E008095E7 /* EnemySquare.swift */; };
+		DFE265F91C543C6C006D7CBA /* Attack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE265F81C543C6C006D7CBA /* Attack.swift */; };
 		DFF348BC1C48D148002C25C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF348BB1C48D148002C25C8 /* AppDelegate.swift */; };
 		DFF348BE1C48D148002C25C8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = DFF348BD1C48D148002C25C8 /* GameScene.sks */; };
 		DFF348C01C48D148002C25C8 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF348BF1C48D148002C25C8 /* GameScene.swift */; };
@@ -23,6 +24,7 @@
 		DF6A2C701C4CEE6B008095E7 /* Square.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Square.swift; path = Source/Square.swift; sourceTree = "<group>"; };
 		DF6A2C721C4CEE82008095E7 /* HeroSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroSquare.swift; sourceTree = "<group>"; };
 		DF6A2C741C4CEE8E008095E7 /* EnemySquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemySquare.swift; sourceTree = "<group>"; };
+		DFE265F81C543C6C006D7CBA /* Attack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Attack.swift; path = Source/Attack.swift; sourceTree = "<group>"; };
 		DFF348B81C48D148002C25C8 /* Squarius.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Squarius.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFF348BB1C48D148002C25C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFF348BD1C48D148002C25C8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -45,6 +47,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DFE265FC1C54431C006D7CBA /* Square */ = {
+			isa = PBXGroup;
+			children = (
+				DF6A2C701C4CEE6B008095E7 /* Square.swift */,
+				DF6A2C721C4CEE82008095E7 /* HeroSquare.swift */,
+				DF6A2C741C4CEE8E008095E7 /* EnemySquare.swift */,
+			);
+			name = Square;
+			sourceTree = "<group>";
+		};
+		DFE265FD1C54432E006D7CBA /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				DFF348BB1C48D148002C25C8 /* AppDelegate.swift */,
+				DFF348BD1C48D148002C25C8 /* GameScene.sks */,
+				DFF348BF1C48D148002C25C8 /* GameScene.swift */,
+				DFF348C11C48D148002C25C8 /* GameViewController.swift */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		DFE265FE1C54433A006D7CBA /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				DFE265F81C543C6C006D7CBA /* Attack.swift */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
 		DFF348AF1C48D147002C25C8 = {
 			isa = PBXGroup;
 			children = (
@@ -64,13 +95,9 @@
 		DFF348BA1C48D148002C25C8 /* Squarius */ = {
 			isa = PBXGroup;
 			children = (
-				DFF348BB1C48D148002C25C8 /* AppDelegate.swift */,
-				DFF348BD1C48D148002C25C8 /* GameScene.sks */,
-				DFF348BF1C48D148002C25C8 /* GameScene.swift */,
-				DF6A2C701C4CEE6B008095E7 /* Square.swift */,
-				DF6A2C721C4CEE82008095E7 /* HeroSquare.swift */,
-				DF6A2C741C4CEE8E008095E7 /* EnemySquare.swift */,
-				DFF348C11C48D148002C25C8 /* GameViewController.swift */,
+				DFE265FD1C54432E006D7CBA /* Scenes */,
+				DFE265FC1C54431C006D7CBA /* Square */,
+				DFE265FE1C54433A006D7CBA /* Library */,
 				DFF348C31C48D148002C25C8 /* Main.storyboard */,
 				DFF348C61C48D148002C25C8 /* Assets.xcassets */,
 				DFF348C81C48D148002C25C8 /* LaunchScreen.storyboard */,
@@ -155,6 +182,7 @@
 				DF6A2C731C4CEE82008095E7 /* HeroSquare.swift in Sources */,
 				DF6A2C711C4CEE6B008095E7 /* Square.swift in Sources */,
 				DFF348C01C48D148002C25C8 /* GameScene.swift in Sources */,
+				DFE265F91C543C6C006D7CBA /* Attack.swift in Sources */,
 				DF6A2C751C4CEE8E008095E7 /* EnemySquare.swift in Sources */,
 				DFF348C21C48D148002C25C8 /* GameViewController.swift in Sources */,
 				DFF348BC1C48D148002C25C8 /* AppDelegate.swift in Sources */,

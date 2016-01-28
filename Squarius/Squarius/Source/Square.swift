@@ -10,7 +10,8 @@ import UIKit
 import SpriteKit
 
 class Square: SKSpriteNode {
-    var damage:Int!
-    var hp:Int!
+
+   
+
     
 }

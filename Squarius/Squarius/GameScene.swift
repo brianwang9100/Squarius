@@ -12,7 +12,23 @@ enum SquareState {
     case Attack, Defend, Charge, Dodge, None
 }
 
+enum Direction {
+    case Left, Right, Up, Down
+}
+
+enum AccuracyMult:Float {
+    case Fail = 0.0, Ok = 0.8, Good = 1.0, Perfect = 1.25
+
+enum BeatAccuracy:Int {
+    //6 + fail
+    //5 to 4 ok
+    // 3 to 2 good
+    // 1 to 0 perfect
+    case Fail = 6, Ok = 5, Good = 3, Perfect = 1
+}
+
 class GameScene: SKScene {
+    
     let offset:CGFloat = 100.0
     var leftrec:UISwipeGestureRecognizer!
     var rightrec:UISwipeGestureRecognizer!
@@ -24,8 +40,17 @@ class GameScene: SKScene {
     var middleSquare: HeroSquare!
     var rightSquare: HeroSquare!
     
+    var selectedSquare:EnemySquare!
+    
     var currentBeat:Int = 1
     var currentSquareState:SquareState = .None
+    var beatFrameCounter:Int = 0
+    var beatFrameThreshold:Int = 30
+    
+    var currentAccuracyMult:AccuracyMult = .Fail
+    var currentBeatAccuracy:BeatAccuracy = .Fail
+    
+    var gestureRecognized:Bool = false
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -67,7 +92,24 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+        beatFrameCounter++
+        if (beatFrameCounter >= beatFrameThreshold && gestureRecognized) {
+            //beat recognized between 30 - 35 frames
+            incrementBeat()
+            gestureRecognized = false
+            beatFrameCounter = beatFrameCounter - beatFrameThreshold //extra difference is added on
+        }
+        if (beatFrameCounter == beatFrameThreshold + BeatAccuracy.Fail.rawValue && !gestureRecognized) {
+            //fail after 36 frames
+            //assert that beatFramCounter does not go past 36 frames
+            incrementBeat()
+            gestureRecognized = false
+            currentBeatAccuracy
+            beatFrameCounter = BeatAccuracy.Fail.rawValue //6 frames
+            
+            //fail animation
+        }
+
     }
     
     func loadSquares() {
@@ -85,6 +127,7 @@ class GameScene: SKScene {
         leftSquare.color = .redColor()
         leftSquare.blendMode = .Alpha
         leftSquare.colorBlendFactor = 0.5
+        leftSquare.setup(100, level: 1, damage: 10, dodgeRate: 0.7, defendRate: 0.8, damageMult: 1.0, defendMult: 1.0, dodgeMult: 1.0)
         self.addChild(leftSquare)
         
         middleSquare = HeroSquare(texture: SKTexture(imageNamed: "SquareGeneric"), size: CGSizeMake(50,50))
@@ -93,6 +136,7 @@ class GameScene: SKScene {
         middleSquare.color = .greenColor()
         middleSquare.blendMode = .Alpha
         middleSquare.colorBlendFactor = 0.5
+        middleSquare.setup(80, level: 1, damage: 15, dodgeRate: 0.5, defendRate: 0.5, damageMult: 1.0, defendMult: 1.0, dodgeMult: 1.0)
         self.addChild(middleSquare)
         
         rightSquare = HeroSquare(texture: SKTexture(imageNamed: "SquareGeneric"), size: CGSizeMake(50,50))
@@ -101,23 +145,24 @@ class GameScene: SKScene {
         rightSquare.color = .blueColor()
         rightSquare.blendMode = .Alpha
         rightSquare.colorBlendFactor = 0.5
+        rightSquare.setup(120, level: 1, damage: 7, dodgeRate: 0.9, defendRate: 0.9, damageMult: 1.0, defendMult: 1.0, dodgeMult: 1.0)
         self.addChild(rightSquare)
     }
     
     func swipeLeft() {
-        
+        handleGestureWithGesture(.Left)
     }
     
     func swipeRight() {
-        
+        handleGestureWithGesture(.Right)
     }
     
     func swipeUp() {
-        
+        handleGestureWithGesture(.Up)
     }
     
     func swipeDown() {
-        
+        handleGestureWithGesture(.Down)
     }
     
     func incrementBeat() {
@@ -128,39 +173,57 @@ class GameScene: SKScene {
         }
     }
     
-    func handleGesture(gesture:String) {
-        if (currentBeat == 5) {
-            switch (gesture) {
-                case "left":
-                    currentSquareState = .Charge
-                    break
-                case "right":
-                    currentSquareState = .Dodge
-                    break
-                case "up":
-                    currentSquareState = .Attack
-                    break
-                case "down":
-                    currentSquareState = .Defend
-                    break
-                default:
-                    currentSquareState = .None
-                    break
+    func handleGestureWithGesture(gesture:Direction) {
+        if (gestureRecognized) {
+            //if there was already a gesture within the last beat, skip the entire loop
+            if (currentBeat <= 4) {
+                currentSquareState = .None
+                //do nothing
+                //this is just in case i wanna do something later
             }
+            if (currentBeat == 5) {
+                //first beat is for action specific
+                switch (gesture) {
+                    case .Left:
+                        currentSquareState = .Charge
+                        break
+                    case .Right:
+                        currentSquareState = .Dodge
+                        break
+                    case .Up:
+                        currentSquareState = .Attack
+                        break
+                    case .Down:
+                        currentSquareState = .Defend
+                        break
+                    default:
+                        currentSquareState = .None
+                        break
+                }
+            }
+            //probs should make this more efficient
+            if (currentBeat == 6 || currentBeat == 7 || currentBeat == 8) {
+                handleActionWithGesture(gesture, state: currentSquareState, beat: currentBeat)
+            }
+            gestureRecognized = true
         }
-        
-        //probs should make this more efficient
-        if (currentBeat == 6) {
-            
+    }
+    
+    func handleActionWithGesture(gesture:Direction, state:SquareState, beat:Int) {
+        switch (gesture) {
+            case .Left:
+                leftSquare.handleActionWithState(state, beat:beat, selected:selectedSquare, accuracy:currentAccuracyMult)
+                break
+            case .Right:
+                rightSquare.handleActionWithState(state, beat:beat, selected:selectedSquare, accuracy:currentAccuracyMult)
+                break
+            case .Up:
+                //maybe use to switch targets?
+                break
+            case .Down:
+                middleSquare.handleActionWithState(state, beat:beat, selected:selectedSquare, accuracy:currentAccuracyMult)
+                break
         }
-        if (currentBeat == 7) {
-            
-        }
-        if (currentBeat == 8) {
-            
-        }
-        
-        incrementBeat()
     }
     
 }

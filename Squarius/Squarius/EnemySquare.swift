@@ -10,5 +10,9 @@ import UIKit
 import SpriteKit
 
 class EnemySquare: Square {
-
+    
+    
+    func handleAttack(selected:HeroSquare, attack:Attack) {
+        
+    }
 }
